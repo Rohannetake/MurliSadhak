@@ -745,11 +745,12 @@ class MurliSadhakApp {
         return `
           <button 
             onclick="app.switchTab('${tab.id}')"
-            class="px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all duration-150 flex items-center gap-1.5 ${
+            class="px-2.5 lg:px-3.5 py-1.5 rounded-lg text-xs lg:text-sm font-semibold transition-all duration-150 flex items-center gap-1.5 whitespace-nowrap ${
               isActive
-                ? 'bg-orange-600 text-white shadow-xs'
+                ? 'bg-orange-600 text-white shadow-xs font-bold'
                 : 'text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-800/70 font-medium'
             }">
+            <span>${tab.icon}</span>
             <span>${tab.label}</span>
           </button>
         `;

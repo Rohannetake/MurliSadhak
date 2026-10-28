@@ -3,8 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MurliSadhak – Your Personal Bansuri Riyaaz Studio</title>
-  
+  <title>MurliSadhak – Personal Bansuri Riyaaz Studio</title>
+  <meta name="description" content="Personal Indian Classical Bansuri (Flute) practice studio & accompaniment companion. Minute-by-minute session planner, sustained breath stopwatch, procedural acoustic Tanpura, and classical library.">
+  <meta name="author" content="Rohan Netake">
+  <meta name="theme-color" content="#ea580c">
+
+  <!-- OpenGraph / Social Sharing Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="MurliSadhak – Personal Bansuri Riyaaz Studio">
+  <meta property="og:description" content="A mindful practice studio built by a flautist for dedicated bansuri sadhaks.">
+  <meta property="og:image" content="logo.png">
+
   <!-- Favicon with Official MurliSadhak Logo -->
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="logo-icon.png">
@@ -61,13 +70,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
       
       <!-- Official MurliSadhak Brand Logo -->
-      <div class="flex items-center gap-6">
-        <a href="javascript:void(0)" onclick="app.switchTab('dashboard')" class="flex items-center gap-3 group py-1" title="MurliSadhak – Return to Dashboard">
-          <img src="logo.png" alt="MurliSadhak" class="h-11 sm:h-12 w-auto object-contain group-hover:scale-102 transition-transform drop-shadow-2xs">
+      <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+        <a href="javascript:void(0)" onclick="app.switchTab('dashboard')" class="flex items-center gap-2.5 group py-1" title="MurliSadhak – Return to Dashboard">
+          <img src="logo.png" alt="MurliSadhak" class="h-10 sm:h-11 w-auto object-contain group-hover:scale-102 transition-transform drop-shadow-2xs">
         </a>
 
-        <!-- Desktop Navigation Tabs -->
-        <nav id="main-nav-links" class="hidden lg:flex items-center gap-1.5">
+        <!-- Desktop & Tablet Navigation Tabs (Visible from 768px+) -->
+        <nav id="main-nav-links" class="hidden md:flex items-center gap-1 overflow-x-auto no-scrollbar">
           <!-- Dynamically populated by app.js -->
         </nav>
       </div>
@@ -146,7 +155,7 @@
     </div>
 
     <!-- Mobile & Tablet Submenu Bar (Scrollable with active highlights) -->
-    <nav id="mobile-nav-links" class="lg:hidden border-t border-stone-200/80 dark:border-stone-800 overflow-x-auto py-2.5 px-4 flex items-center gap-2 text-xs no-scrollbar">
+    <nav id="mobile-nav-links" class="md:hidden border-t border-stone-200/80 dark:border-stone-800 overflow-x-auto py-2.5 px-4 flex items-center gap-2 text-xs no-scrollbar">
       <!-- Dynamically populated by app.js -->
     </nav>
   </header>

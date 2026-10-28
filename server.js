@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 8080;
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=UTF-8',
@@ -59,6 +59,16 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`\n🪈 MurliSadhak is running at: http://localhost:${PORT}\nOpen this link in your browser to start your riyaaz.\n`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`
+============================================================
+  🪈 MurliSadhak - Personal Bansuri Riyaaz Studio
+============================================================
+  > Local:    http://localhost:${PORT}
+  > Network:  http://127.0.0.1:${PORT}
+
+  Open http://localhost:${PORT} in your browser.
+  Press Ctrl+C in this terminal to stop the server anytime.
+============================================================
+`);
 });
