@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MurliSadhak – Your Personal Bansuri Riyaaz Studio</title>
+  
+  <!-- Favicon with Peacock Feather SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23ea580c'/><path d='M50 15 C35 30 25 50 35 75 C45 60 55 50 50 15 Z' fill='%230284c7'/><circle cx='43' cy='48' r='10' fill='%23f59e0b'/><circle cx='43' cy='48' r='5' fill='%230f172a'/><rect x='22' y='72' width='56' height='7' rx='3.5' fill='%23fbbf24' transform='rotate(-20 50 75)'/></svg>">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sadhak: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c', // Primary Theme Orange
+              700: '#c2410c',
+              800: '#9a3412',
+              900: '#7c2d12',
+              950: '#431407'
+            },
+            charcoal: {
+              800: '#292524',
+              900: '#1c1917',
+              950: '#141211'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"SF Mono"', 'Menlo', 'Monaco', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen flex flex-col bg-[#fcfbf9] dark:bg-[#151413] text-stone-900 dark:text-stone-100 antialiased selection:bg-orange-500 selection:text-white transition-colors duration-200">
+
+  <!-- ==========================================
+       TOP NAVIGATION BAR
+       Matches Screenshot 1-5 Header with Peacock Feather Logo
+       ========================================== -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#1e1c19]/95 backdrop-blur-md border-b border-stone-200/90 dark:border-stone-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      
+      <!-- Brand & Peacock Feather Morpankh Logo -->
+      <div class="flex items-center gap-8">
+        <a href="javascript:void(0)" onclick="app.switchTab('dashboard')" class="flex items-center gap-2.5 group">
+          <!-- Stylized Peacock Feather & Bansuri SVG Icon -->
+          <div class="w-9 h-9 rounded-xl bg-orange-50 dark:bg-orange-950/40 border border-orange-200/60 dark:border-orange-800/60 flex items-center justify-center p-1.5 shadow-xs group-hover:scale-105 transition-transform">
+            <svg viewBox="0 0 48 48" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Peacock Feather Quill / Shaft -->
+              <path d="M12 40C20 34 28 24 36 8" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Outer emerald/azure plume aura -->
+              <path d="M36 8C27 10 21 17 21 27C21 34 26 39 31 38C37 37 41 29 41 20C41 13 38 9 36 8Z" fill="#0284c7" fill-opacity="0.25" stroke="#0284c7" stroke-width="1.2"/>
+              <!-- Golden halo ring -->
+              <circle cx="31" cy="23" r="7.5" fill="#f59e0b" fill-opacity="0.35" stroke="#d97706" stroke-width="1.2"/>
+              <!-- Center deep iridescent peacock eye -->
+              <circle cx="31" cy="23" r="4.2" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+              <!-- Cross flute silhouette -->
+              <rect x="6" y="27" width="34" height="4.5" rx="2.25" transform="rotate(-30 6 27)" fill="#ea580c" stroke="#fff" stroke-width="0.8"/>
+            </svg>
+          </div>
+          <span class="text-xl font-extrabold tracking-tight text-stone-900 dark:text-stone-50 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+            Murli<span class="text-orange-600 dark:text-orange-400">Sadhak</span>
+          </span>
+        </a>
+
+        <!-- Desktop Navigation Tabs -->
+        <nav id="main-nav-links" class="hidden lg:flex items-center gap-1.5">
+          <!-- Dynamically populated by app.js -->
+        </nav>
+      </div>
+
+      <!-- Right Utility Actions -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Quick Accompaniment Links Dropdown (Direct Tabla & Tanpura/Sitar access!) -->
+        <div class="relative group">
+          <button class="px-3 py-1.5 rounded-lg border border-stone-200/90 dark:border-stone-800 bg-stone-50 hover:bg-stone-100 dark:bg-stone-900 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 text-xs font-semibold flex items-center gap-1.5 transition-all">
+            <span class="text-orange-600 dark:text-orange-400">🥁</span>
+            <span class="hidden sm:inline">Accompaniments</span>
+            <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          
+          <!-- Dropdown menu -->
+          <div class="absolute right-0 mt-2 w-64 rounded-xl bg-white dark:bg-[#201e1b] border border-stone-200 dark:border-stone-800 shadow-xl py-2 hidden group-hover:block transition-all z-50">
+            <div class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-stone-400">Spardha Practice Tools</div>
+            
+            <a href="https://www.spardhaschoolofmusic.com/tools/tabla" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-3 py-2 text-xs text-stone-800 dark:text-stone-200 hover:bg-orange-50 dark:hover:bg-orange-950/30 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
+              <span class="text-base">🥁</span>
+              <div>
+                <div class="font-bold">Online Tabla Beats</div>
+                <div class="text-[10px] text-stone-500">Spardha School of Music</div>
+              </div>
+              <svg class="w-3 h-3 text-stone-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+
+            <a href="https://www.spardhaschoolofmusic.com/tools/tanpura" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-3 py-2 text-xs text-stone-800 dark:text-stone-200 hover:bg-orange-50 dark:hover:bg-orange-950/30 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
+              <span class="text-base">🪕</span>
+              <div>
+                <div class="font-bold">Shruti Box / Tanpura Online</div>
+                <div class="text-[10px] text-stone-500">Spardha Digital Drone</div>
+              </div>
+              <svg class="w-3 h-3 text-stone-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+
+            <div class="my-1 border-t border-stone-100 dark:border-stone-800"></div>
+            
+            <button onclick="app.toggleTanpura()" class="w-full flex items-center gap-3 px-3 py-2 text-xs text-left text-stone-800 dark:text-stone-200 hover:bg-orange-50 dark:hover:bg-orange-950/30 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
+              <span class="text-base">✨</span>
+              <div>
+                <div class="font-bold">Built-in Acoustic Tanpura</div>
+                <div class="text-[10px] text-stone-500">Web Audio pure harmonics</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dark/Light Theme Toggle Button -->
+        <button 
+          id="theme-toggle-btn"
+          onclick="app.toggleTheme()" 
+          class="p-2 rounded-lg text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+          title="Toggle Dark / Light Mode">
+          <svg class="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+
+        <!-- Settings & Backup Button -->
+        <button 
+          onclick="app.openSettingsModal()" 
+          class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+          title="Settings, Backup & Restore">
+          <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span class="hidden sm:inline">Settings</span>
+        </button>
+
+        <!-- Profile Avatar Button (Opens Sadhak Profile Modal) -->
+        <button 
+          onclick="app.openProfileModal()" 
+          id="nav-profile-btn"
+          class="w-8 h-8 rounded-full bg-orange-100 hover:bg-orange-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-orange-800 dark:text-orange-300 flex items-center justify-center text-xs font-bold ring-1 ring-orange-300 dark:ring-stone-700 transition-all cursor-pointer shadow-2xs"
+          title="Sadhak Profile & Details">
+          <span id="nav-user-initials">AS</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile & Tablet Submenu Bar (Scrollable with active highlights) -->
+    <nav id="mobile-nav-links" class="lg:hidden border-t border-stone-200/80 dark:border-stone-800 overflow-x-auto py-2.5 px-4 flex items-center gap-2 text-xs no-scrollbar">
+      <!-- Dynamically populated by app.js -->
+    </nav>
+  </header>
+
+  <!-- ==========================================
+       MAIN CONTENT ROUTER CONTAINER
+       ========================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16" id="app-main-content">
+    <!-- Populated by app.js router -->
+  </main>
+
+  <!-- ==========================================
+       MODAL: YOUTUBE IN-APP PLAYER
+       Direct Watch WITHOUT Redirecting
+       ========================================== -->
+  <div id="video-player-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl border border-stone-200 dark:border-stone-800 fade-in flex flex-col max-h-[90vh]">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between gap-4">
+        <div>
+          <h3 id="modal-video-title" class="text-base font-bold text-stone-900 dark:text-stone-100">Video Player</h3>
+          <p id="modal-video-desc" class="text-xs text-stone-500 dark:text-stone-400 mt-0.5"></p>
+        </div>
+        <button onclick="app.closeVideoModal()" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Responsive Video Player Container -->
+      <div class="relative w-full aspect-video bg-black" id="modal-video-frame-container">
+        <!-- Iframe injected dynamically -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3.5 bg-stone-50 dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-xs">
+        <span class="text-stone-500">Playing in MurliSadhak without leaving page</span>
+        <div class="flex items-center gap-3">
+          <a id="modal-open-youtube-link" href="#" target="_blank" rel="noopener noreferrer" class="text-stone-600 dark:text-stone-300 hover:text-orange-600 dark:hover:text-orange-400 font-medium flex items-center gap-1">
+            <span>Open on YouTube</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <button onclick="app.closeVideoModal()" class="px-4 py-2 bg-stone-900 hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700 text-white rounded-lg text-xs font-semibold">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: SETTINGS & BACKUP EXPORT/IMPORT
+       ========================================== -->
+  <div id="settings-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in space-y-6">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800">
+        <div>
+          <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100">Settings & Studio Data</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">Manage backups, theme, and profile preferences</p>
+        </div>
+        <button onclick="app.closeSettingsModal()" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Backup Export & Import Section (Prompt requirement) -->
+      <div class="space-y-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-stone-500">Backup & Portability</h4>
+        <div class="p-4 rounded-xl bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 space-y-3 text-xs">
+          <p class="text-stone-600 dark:text-stone-400">
+            Export all your riyaaz history, flute care records, song wishlist, and custom goals into a JSON file, or restore from a previous backup.
+          </p>
+          <div class="flex flex-wrap gap-2.5 pt-1">
+            <button 
+              onclick="app.exportBackup()" 
+              class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg transition-all flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              Export JSON Backup
+            </button>
+
+            <button 
+              onclick="app.triggerImportBackup()" 
+              class="px-4 py-2 bg-stone-900 hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700 text-white font-bold rounded-lg transition-all flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+              Import Backup File
+            </button>
+            <input type="file" id="backup-file-input" accept=".json" onchange="app.handleImportBackup(event)" class="hidden">
+          </div>
+        </div>
+      </div>
+
+      <!-- Appearance & Profile -->
+      <div class="space-y-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-stone-500">Appearance & Studio</h4>
+        <div class="flex items-center justify-between p-3.5 rounded-xl bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs">
+          <div>
+            <span class="font-bold text-stone-900 dark:text-stone-100">Color Theme</span>
+            <p class="text-stone-500">Switch between Crisp White and Deep Bansuri Dark mode</p>
+          </div>
+          <button 
+            onclick="app.toggleTheme()" 
+            class="px-3 py-1.5 bg-stone-200 dark:bg-stone-800 hover:bg-stone-300 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 rounded-md font-semibold">
+            Toggle Theme
+          </button>
+        </div>
+      </div>
+
+      <!-- Reset Option -->
+      <div class="pt-2 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-xs">
+        <button onclick="app.resetToDefaultData()" class="text-stone-400 hover:text-red-600 transition-colors">
+          Reset to sample template data
+        </button>
+        <button onclick="app.closeSettingsModal()" class="px-4 py-2 bg-stone-900 hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700 text-white rounded-lg font-semibold">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: SADHAK PROFILE
+       ========================================== -->
+  <div id="profile-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs overflow-y-auto">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in my-8 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800 shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-stone-800 text-orange-700 dark:text-orange-300 flex items-center justify-center font-bold text-sm ring-2 ring-orange-400/40">
+            <span id="profile-modal-badge-initials">AS</span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-stone-900 dark:text-stone-100">Sadhak Profile</h3>
+            <p class="text-xs text-stone-500 dark:text-stone-400">Personalize your riyaaz identity</p>
+          </div>
+        </div>
+        <button onclick="app.closeModal('profile-modal')" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Live Studio Statistics -->
+      <div class="grid grid-cols-3 gap-2 my-4 p-3 rounded-xl bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-center">
+        <div>
+          <div class="text-lg font-black text-orange-600 dark:text-orange-400" id="profile-stat-flutes">0</div>
+          <div class="text-[10px] font-semibold text-stone-500 uppercase">Flutes</div>
+        </div>
+        <div>
+          <div class="text-lg font-black text-stone-900 dark:text-stone-100" id="profile-stat-songs">0</div>
+          <div class="text-[10px] font-semibold text-stone-500 uppercase">Repertoire</div>
+        </div>
+        <div>
+          <div class="text-lg font-black text-stone-900 dark:text-stone-100" id="profile-stat-goals">0</div>
+          <div class="text-[10px] font-semibold text-stone-500 uppercase">Goals</div>
+        </div>
+      </div>
+
+      <form onsubmit="app.handleSaveProfile(event)" class="overflow-y-auto space-y-4 py-1 pr-1">
+        <div class="grid grid-cols-3 gap-3">
+          <div class="col-span-2">
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Your Name *</label>
+            <input type="text" id="profile-form-name" placeholder="e.g. Rohan Netake" required class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Initials *</label>
+            <input type="text" id="profile-form-initials" maxlength="3" placeholder="RN" required class="w-full px-3 py-2 text-xs font-bold uppercase rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500 text-center">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Sadhak Level</label>
+          <select id="profile-form-level" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+            <option value="Prarambhik (Beginner)">Prarambhik (Beginner)</option>
+            <option value="Madhyamik (Intermediate)" selected>Madhyamik (Intermediate)</option>
+            <option value="Kalaakaar (Advanced)">Kalaakaar (Advanced)</option>
+            <option value="Lifelong Sadhak">Lifelong Sadhak</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Primary Bansuri Scale</label>
+          <input type="text" id="profile-form-flute" placeholder="e.g. E bass (30 inch) & C natural" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Riyaaz Intention / Motto</label>
+          <input type="text" id="profile-form-motto" placeholder="e.g. Sur, Laya, and Shanti — a little every day." class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+        </div>
+
+        <div class="pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-2 shrink-0">
+          <button type="button" onclick="app.closeModal('profile-modal')" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs font-bold shadow-xs">
+            Save Profile
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: ADD FLUTE (All fields visible at once)
+       ========================================== -->
+  <div id="add-flute-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs overflow-y-auto">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in my-8 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800 shrink-0">
+        <div>
+          <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100">Add New Flute</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">Keep its material, scale, and care dates together</p>
+        </div>
+        <button onclick="app.closeModal('add-flute-modal')" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="app.handleSaveFluteModal(event)" class="overflow-y-auto space-y-4 py-3 pr-1">
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Flute Name *</label>
+          <input type="text" id="modal-flute-name" placeholder="e.g. E bass Bansuri / C natural Medium" required class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Material / Type *</label>
+            <select id="modal-flute-type" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 font-semibold">
+              <option value="Bamboo">Bamboo (Assam / Kerala seasoned)</option>
+              <option value="PVC">PVC (Fiber / Synthetic)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Scale *</label>
+            <select id="modal-flute-scale" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+              <option value="C natural">C natural (Medium 19 inch)</option>
+              <option value="C# natural">C# natural (Medium 18 inch)</option>
+              <option value="D natural">D natural (Medium 17 inch)</option>
+              <option value="D# natural">D# natural (Medium 16.5 inch)</option>
+              <option value="E bass" selected>E bass (Bansuri 30 inch)</option>
+              <option value="F bass">F bass (Bansuri 28 inch)</option>
+              <option value="G bass">G bass (Deep Bass 25 inch)</option>
+              <option value="A natural">A natural (Bansuri 23 inch)</option>
+              <option value="B natural">B natural (Bansuri 21 inch)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Last Cleaned Date</label>
+            <input type="date" id="modal-flute-last-cleaned" value="2026-10-25" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 font-mono">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Next Cleaning Due Date</label>
+            <input type="date" id="modal-flute-next-cleaning" value="2026-11-01" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 font-mono">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Maker / Tone Notes (optional)</label>
+          <textarea id="modal-flute-notes" rows="2" placeholder="e.g. Punam Flutes, tuned to 440 Hz, warm round low register" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-2 shrink-0">
+          <button type="button" onclick="app.closeModal('add-flute-modal')" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs font-bold shadow-xs">
+            Save Flute
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="add-technique-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs overflow-y-auto">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in my-8 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800 shrink-0">
+        <div>
+          <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100">Add New Technique</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">Expand your Bansuri practice library</p>
+        </div>
+        <button onclick="app.closeModal('add-technique-modal')" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="app.handleSaveTechnique(event)" class="overflow-y-auto space-y-4 py-3 pr-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Technique Name *</label>
+            <input type="text" id="tech-form-name" placeholder="e.g. Khatka / Andolan / Meend" required class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Subtitle / Tagline</label>
+            <input type="text" id="tech-form-subtitle" placeholder="e.g. Expression · Micro-tonal glide" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Short Summary</label>
+          <input type="text" id="tech-form-summary" placeholder="e.g. A fast cluster ornamentation around a principal swar" required class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">In-depth Description</label>
+          <textarea id="tech-form-desc" rows="2" placeholder="Explain the finger movement, embouchure position, and breath control..." class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100"></textarea>
+        </div>
+
+        <!-- Status: Strictly Learning or Not started ONLY! -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Initial Status</label>
+            <select id="tech-form-status" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 font-semibold">
+              <option value="Learning">Learning (Active Riyaaz)</option>
+              <option value="Not started">Not started</option>
+            </select>
+            <p class="text-[10px] text-stone-400 mt-1 italic">No "Mastered" option — techniques are lifelong sadhana.</p>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Connected Goal / Intention</label>
+            <input type="text" id="tech-form-goal" placeholder="e.g. 15 days of Meend" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+        </div>
+
+        <!-- YouTube Tutorial Link + Live Thumbnail Preview -->
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">YouTube Tutorial Link</label>
+          <input 
+            type="url" 
+            id="tech-form-video" 
+            placeholder="https://www.youtube.com/watch?v=..." 
+            oninput="app.previewYouTubeThumbnail(this.value, 'tech-yt-thumb-preview')"
+            class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+          <div id="tech-yt-thumb-preview"></div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">My Initial Practice Notes</label>
+          <textarea id="tech-form-notes" rows="2" placeholder="e.g. Start on Mandra Pa. Keep fingers light and avoid tense grip." class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-2 shrink-0">
+          <button type="button" onclick="app.closeModal('add-technique-modal')" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs font-bold shadow-xs">
+            Save Technique
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: ADD RAAG (All fields visible at once)
+       ========================================== -->
+  <div id="add-raag-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs overflow-y-auto">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in my-8 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800 shrink-0">
+        <div>
+          <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100">Add New Raag</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">Classical Swar structure, Flautist rendition & YouTube video</p>
+        </div>
+        <button onclick="app.closeModal('add-raag-modal')" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="app.handleSaveRaag(event)" class="overflow-y-auto space-y-4 py-3 pr-1">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Raag Name *</label>
+            <input type="text" id="raag-form-name" placeholder="e.g. Raag Kafi / Raag Marwa" required class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Thaat</label>
+            <select id="raag-form-thaat" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+              <option value="Kalyan">Kalyan</option>
+              <option value="Bilawal">Bilawal</option>
+              <option value="Kafi">Kafi</option>
+              <option value="Bhairav">Bhairav</option>
+              <option value="Bhairavi">Bhairavi</option>
+              <option value="Asavari">Asavari</option>
+              <option value="Khamaj">Khamaj</option>
+              <option value="Poorvi">Poorvi</option>
+              <option value="Marwa">Marwa</option>
+              <option value="Todi">Todi</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Prahar / Time</label>
+            <input type="text" id="raag-form-prahar" placeholder="e.g. Night 7-10 PM / Dawn" required class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Aroha *</label>
+            <input type="text" id="raag-form-aroha" placeholder="e.g. Sa Re Ga_ Ma Pa Dha Ni_ Sa'" required class="w-full px-3 py-2 text-xs font-mono rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Avroha *</label>
+            <input type="text" id="raag-form-avroha" placeholder="e.g. Sa' Ni_ Dha Pa Ma Ga_ Re Sa" required class="w-full px-3 py-2 text-xs font-mono rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Vadi Swar</label>
+            <input type="text" id="raag-form-vadi" placeholder="e.g. Pa / Ga" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Samvadi Swar</label>
+            <input type="text" id="raag-form-samvadi" placeholder="e.g. Sa / Re" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Rasa / Mood</label>
+            <input type="text" id="raag-form-rasa" placeholder="e.g. Shringara / Shanta / Bhakti" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Pakad Phrase</label>
+          <input type="text" id="raag-form-pakad" placeholder="e.g. Sa .Ni Dha .Ni Sa, Ma, Ga_ Re Sa" class="w-full px-3 py-2 text-xs font-mono rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Famous Flautist / Composer Name *</label>
+            <input type="text" id="raag-form-flautist" placeholder="e.g. Pt. Hariprasad Chaurasia" required class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Performance Video Title</label>
+            <input type="text" id="raag-form-title" placeholder="e.g. Live Alaap & Jod in Vrindavan" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+        </div>
+
+        <!-- YouTube Link + Live Thumbnail Preview -->
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">YouTube Performance Video Link *</label>
+          <input 
+            type="url" 
+            id="raag-form-video" 
+            placeholder="https://www.youtube.com/watch?v=..." 
+            required
+            oninput="app.previewYouTubeThumbnail(this.value, 'raag-yt-thumb-preview')"
+            class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+          <div id="raag-yt-thumb-preview"></div>
+        </div>
+
+        <div class="pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-2 shrink-0">
+          <button type="button" onclick="app.closeModal('add-raag-modal')" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs font-bold shadow-xs">
+            Save Raag
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: ADD SONG (Video Hub - All fields visible at once)
+       ========================================== -->
+  <div id="add-song-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs overflow-y-auto">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in my-8 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800 shrink-0">
+        <div>
+          <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100">Add Song to Repertoire</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">Song wishlist synced with embedded YouTube tutorial</p>
+        </div>
+        <button onclick="app.closeModal('add-song-modal')" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="app.handleSaveSong(event)" class="overflow-y-auto space-y-4 py-3 pr-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Song Title *</label>
+            <input type="text" id="song-form-title" placeholder="e.g. Lag Jaa Gale / Krishna Theme" required class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Movie / Album / Composer Name</label>
+            <input type="text" id="song-form-movie" placeholder="e.g. Woh Kaun Thi / Madan Mohan" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Flute Scale Required</label>
+            <input type="text" id="song-form-scale" placeholder="e.g. C natural / G bass" required class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Difficulty</label>
+            <select id="song-form-difficulty" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate" selected>Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Status</label>
+            <select id="song-form-status" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 font-semibold">
+              <option value="Want to learn">Want to learn (Pending)</option>
+              <option value="Learning">Learning</option>
+              <option value="Learned">Learned (Completed)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- YouTube Link + Live Thumbnail Preview -->
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">YouTube Tutorial Video Link *</label>
+          <input 
+            type="url" 
+            id="song-form-video" 
+            placeholder="https://www.youtube.com/watch?v=..." 
+            required
+            oninput="app.previewYouTubeThumbnail(this.value, 'song-yt-thumb-preview')"
+            class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+          <div id="song-yt-thumb-preview"></div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Practice Notes / Key Phrases</label>
+          <textarea id="song-form-notes" rows="2" placeholder="e.g. Focus on smooth phrase endings and gentle meend on Re to Pa." class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-2 shrink-0">
+          <button type="button" onclick="app.closeModal('add-song-modal')" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs font-bold shadow-xs">
+            Save Song
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: ADD SUB-ACTIVITY (Session)
+       ========================================== -->
+  <div id="add-activity-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800">
+        <div>
+          <h3 class="text-base font-bold text-stone-900 dark:text-stone-100">Add Session Sub-Activity</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">Allocate specific minutes to a technique</p>
+        </div>
+        <button onclick="app.closeModal('add-activity-modal')" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="app.handleSaveActivity(event)" class="space-y-4 pt-4">
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Technique / Activity Name *</label>
+          <input type="text" id="act-form-name" placeholder="e.g. Gamak drills / Raag Yaman Dhun" required class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Duration (Minutes) *</label>
+          <input type="number" id="act-form-duration" value="15" min="2" max="180" required class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 font-mono">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Focus / Instructions</label>
+          <input type="text" id="act-form-desc" placeholder="e.g. Steady diaphragmatic breathing and relaxed embouchure" class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+        </div>
+
+        <div class="pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-2">
+          <button type="button" onclick="app.closeModal('add-activity-modal')" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs font-bold shadow-xs">
+            Add Activity
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: ADD PRACTICE GOAL (Goals)
+       ========================================== -->
+  <div id="add-goal-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800">
+        <div>
+          <h3 class="text-base font-bold text-stone-900 dark:text-stone-100">Create Practice Goal</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">Target a technique, breath time, or speed</p>
+        </div>
+        <button onclick="app.closeModal('add-goal-modal')" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="app.handleSaveGoal(event)" class="space-y-4 pt-4">
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Goal Title *</label>
+          <input type="text" id="goal-form-title" placeholder="e.g. 15 days of Meend practice / 30s Sa breath" required class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Target Days *</label>
+            <input type="number" id="goal-form-target-days" value="15" min="1" max="365" required class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 font-mono">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Target Date</label>
+            <input type="text" id="goal-form-target-date" placeholder="e.g. 15 Nov 2026" required class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Linked Technique / Instrument</label>
+          <input type="text" id="goal-form-technique" placeholder="e.g. Meend / Long notes / G bass flute" class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Commitment Description</label>
+          <textarea id="goal-form-desc" rows="2" placeholder="e.g. 5 mindful minutes each day. Keep the glide unhurried." class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-2">
+          <button type="button" onclick="app.closeModal('add-goal-modal')" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs font-bold shadow-xs">
+            Create Goal
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: LOG FLUTE CARE (Flutes & Care)
+       ========================================== -->
+  <div id="log-care-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800">
+        <div>
+          <h3 class="text-base font-bold text-stone-900 dark:text-stone-100">Log Instrument Care</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">Record cleaning, bore swabbing, or oiling</p>
+        </div>
+        <button onclick="app.closeModal('log-care-modal')" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="app.handleSaveCareLog(event)" class="space-y-4 pt-4">
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Select Flute *</label>
+          <select id="care-form-flute" class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 font-semibold">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Date Cleaned</label>
+            <input type="date" id="care-form-date" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 font-mono">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Next Due Date</label>
+            <input type="date" id="care-form-next-date" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 font-mono">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Care & Observations *</label>
+          <textarea id="care-form-obs" rows="3" placeholder="e.g. Dry swab after practice. Tone holes clear; no cracks. Light walnut oil applied inside bore." required class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-2">
+          <button type="button" onclick="app.closeModal('log-care-modal')" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs font-bold shadow-xs">
+            Save Record
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: EDIT PRACTICE NOTES (Techniques)
+       ========================================== -->
+  <div id="edit-notes-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800">
+        <div>
+          <h3 id="edit-notes-modal-title" class="text-base font-bold text-stone-900 dark:text-stone-100">Edit Practice Notes</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">Record your finger sensations and insights</p>
+        </div>
+        <button onclick="app.closeModal('edit-notes-modal')" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="app.handleSaveEditedNotes(event)" class="space-y-4 pt-4">
+        <input type="hidden" id="edit-notes-tech-id">
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Your Practice Notes</label>
+          <textarea id="edit-notes-textarea" rows="4" class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-2">
+          <button type="button" onclick="app.closeModal('edit-notes-modal')" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs font-bold shadow-xs">
+            Save Notes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: ADD YOUTUBE VIDEO TO TECHNIQUE (Multiple Videos Support)
+       ========================================== -->
+  <div id="add-technique-video-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
+    <div class="bg-white dark:bg-[#201e1b] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 dark:border-stone-800 fade-in">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800">
+        <div>
+          <h3 id="tech-video-modal-heading" class="text-base font-bold text-stone-900 dark:text-stone-100">Add Tutorial Video</h3>
+          <p id="tech-video-modal-sub" class="text-xs text-stone-500 dark:text-stone-400">Add a new YouTube lesson to this technique</p>
+        </div>
+        <button onclick="app.closeModal('add-technique-video-modal')" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="app.handleSaveTechniqueVideo(event)" class="space-y-4 pt-4">
+        <input type="hidden" id="tech-video-modal-tech-id">
+        
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Video / Lesson Title *</label>
+          <input 
+            type="text" 
+            id="tech-video-modal-title" 
+            required 
+            placeholder="e.g. Lesson 2: Mandra Saptak Meend drills"
+            class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">YouTube Video URL *</label>
+          <input 
+            type="url" 
+            id="tech-video-modal-url" 
+            required 
+            placeholder="https://www.youtube.com/watch?v=..."
+            oninput="app.previewYouTubeThumbnail(this.value, 'tech-video-modal-thumb-preview')"
+            class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100 focus:ring-1 focus:ring-orange-500">
+          <div id="tech-video-modal-thumb-preview"></div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">Key Insight / Timestamps (optional)</label>
+          <input 
+            type="text" 
+            id="tech-video-modal-notes" 
+            placeholder="e.g. Focus on finger glide between 03:15 and 05:40"
+            class="w-full px-3.5 py-2 text-xs rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-stone-100">
+        </div>
+
+        <div class="pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-2">
+          <button type="button" onclick="app.closeModal('add-technique-video-modal')" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 rounded-lg text-xs font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs font-bold shadow-xs">
+            Add Video
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       FLOATING TOAST NOTIFICATION
+       ========================================== -->
+  <div id="app-toast" class="fixed bottom-6 right-6 z-50 hidden translate-y-12 opacity-0 transition-all duration-300">
+    <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-stone-900 text-white shadow-2xl border border-stone-800 text-xs font-medium">
+      <span class="w-2 h-2 rounded-full bg-orange-500 shrink-0"></span>
+      <span id="toast-message">Notification message</span>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       FOOTER (Matches Screenshots 1-5 exact footer text)
+       ========================================== -->
+  <footer class="mt-auto border-t border-stone-200/90 dark:border-stone-800/80 bg-white dark:bg-[#1a1816] py-6 text-xs text-stone-500 dark:text-stone-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="text-orange-600 dark:text-orange-400">🪈</span>
+        <span>A little every day. A lifetime of music.</span>
+      </div>
+      <div class="flex items-center gap-2 text-stone-400">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        <span>Personal workspace · Stored on this device</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="tanpura.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
