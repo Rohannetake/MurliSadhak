@@ -825,14 +825,17 @@ class MurliSadhakApp {
       <div class="space-y-7 max-w-7xl mx-auto pb-12 fade-in">
         <!-- Top Title & Subheading -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <span class="text-xs font-bold tracking-wider uppercase text-orange-600 dark:text-orange-400">STUDIO DASHBOARD & RIYAAZ HUB</span>
-            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900 dark:text-stone-50 mt-1">
-              Sadhana Dashboard · ${this.state.user.name}
-            </h1>
-            <p class="text-stone-500 dark:text-stone-400 text-sm mt-1">
-              Your flute practice overview, quick accompaniment links, flute health, and weekly targets.
-            </p>
+          <div class="flex items-center gap-3.5">
+            <img src="logo-icon.png" alt="MurliSadhak Emblem" class="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0 drop-shadow-2xs">
+            <div>
+              <span class="text-xs font-bold tracking-wider uppercase text-orange-600 dark:text-orange-400">STUDIO DASHBOARD & RIYAAZ HUB</span>
+              <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900 dark:text-stone-50 mt-0.5">
+                Sadhana Dashboard · ${this.state.user.name}
+              </h1>
+              <p class="text-stone-500 dark:text-stone-400 text-xs sm:text-sm mt-0.5">
+                Your flute practice overview, quick accompaniment links, flute health, and weekly targets.
+              </p>
+            </div>
           </div>
           <div class="flex items-center gap-3">
             <button 

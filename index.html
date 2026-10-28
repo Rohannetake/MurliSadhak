@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MurliSadhak – Your Personal Bansuri Riyaaz Studio</title>
   
-  <!-- Favicon with Peacock Feather SVG -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23ea580c'/><path d='M50 15 C35 30 25 50 35 75 C45 60 55 50 50 15 Z' fill='%230284c7'/><circle cx='43' cy='48' r='10' fill='%23f59e0b'/><circle cx='43' cy='48' r='5' fill='%230f172a'/><rect x='22' y='72' width='56' height='7' rx='3.5' fill='%23fbbf24' transform='rotate(-20 50 75)'/></svg>">
+  <!-- Favicon with Official MurliSadhak Logo -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="logo-icon.png">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -59,27 +60,10 @@
   <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#1e1c19]/95 backdrop-blur-md border-b border-stone-200/90 dark:border-stone-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
       
-      <!-- Brand & Peacock Feather Morpankh Logo -->
-      <div class="flex items-center gap-8">
-        <a href="javascript:void(0)" onclick="app.switchTab('dashboard')" class="flex items-center gap-2.5 group">
-          <!-- Stylized Peacock Feather & Bansuri SVG Icon -->
-          <div class="w-9 h-9 rounded-xl bg-orange-50 dark:bg-orange-950/40 border border-orange-200/60 dark:border-orange-800/60 flex items-center justify-center p-1.5 shadow-xs group-hover:scale-105 transition-transform">
-            <svg viewBox="0 0 48 48" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Peacock Feather Quill / Shaft -->
-              <path d="M12 40C20 34 28 24 36 8" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
-              <!-- Outer emerald/azure plume aura -->
-              <path d="M36 8C27 10 21 17 21 27C21 34 26 39 31 38C37 37 41 29 41 20C41 13 38 9 36 8Z" fill="#0284c7" fill-opacity="0.25" stroke="#0284c7" stroke-width="1.2"/>
-              <!-- Golden halo ring -->
-              <circle cx="31" cy="23" r="7.5" fill="#f59e0b" fill-opacity="0.35" stroke="#d97706" stroke-width="1.2"/>
-              <!-- Center deep iridescent peacock eye -->
-              <circle cx="31" cy="23" r="4.2" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
-              <!-- Cross flute silhouette -->
-              <rect x="6" y="27" width="34" height="4.5" rx="2.25" transform="rotate(-30 6 27)" fill="#ea580c" stroke="#fff" stroke-width="0.8"/>
-            </svg>
-          </div>
-          <span class="text-xl font-extrabold tracking-tight text-stone-900 dark:text-stone-50 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
-            Murli<span class="text-orange-600 dark:text-orange-400">Sadhak</span>
-          </span>
+      <!-- Official MurliSadhak Brand Logo -->
+      <div class="flex items-center gap-6">
+        <a href="javascript:void(0)" onclick="app.switchTab('dashboard')" class="flex items-center gap-3 group py-1" title="MurliSadhak – Return to Dashboard">
+          <img src="logo.png" alt="MurliSadhak" class="h-11 sm:h-12 w-auto object-contain group-hover:scale-102 transition-transform drop-shadow-2xs">
         </a>
 
         <!-- Desktop Navigation Tabs -->
@@ -959,8 +943,10 @@
        ========================================== -->
   <footer class="mt-auto border-t border-stone-200/90 dark:border-stone-800/80 bg-white dark:bg-[#1a1816] py-6 text-xs text-stone-500 dark:text-stone-400">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-2">
-        <span class="text-orange-600 dark:text-orange-400">🪈</span>
+      <div class="flex items-center gap-2.5">
+        <img src="logo-icon.png" alt="MurliSadhak Icon" class="w-6 h-6 object-contain">
+        <span class="font-bold text-stone-800 dark:text-stone-200">MurliSadhak</span>
+        <span class="text-stone-300 dark:text-stone-700">·</span>
         <span>A little every day. A lifetime of music.</span>
       </div>
       <div class="flex items-center gap-2 text-stone-400">

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logo.png" alt="MurliSadhak Logo" width="280">
+</p>
+
 # 🪈 MurliSadhak – Personal Bansuri Riyaaz Studio
 
 > *"A little every day. A lifetime of music."*
